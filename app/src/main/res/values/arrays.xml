@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="nation">
+        <item>한국(KRW)</item>
+        <item>일본(JPY)</item>
+        <item>필리핀(PHP)</item>
+    </string-array>
+</resources>

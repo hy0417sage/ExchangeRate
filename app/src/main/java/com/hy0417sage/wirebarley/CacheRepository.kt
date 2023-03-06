@@ -1,8 +1,9 @@
 package com.hy0417sage.wirebarley
 
+import androidx.lifecycle.LiveData
 import com.hy0417sage.wirebarley.cache.CacheEntity
 
 interface CacheRepository {
-    suspend fun getCache(): List<CacheEntity>
-    suspend fun insertCache(cache: List<CacheEntity>)
+    fun getCache(): LiveData<CacheEntity>
+    suspend fun insertCache(cache: CacheEntity)
 }

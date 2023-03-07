@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Cache")
 data class CacheEntity(
-    @PrimaryKey val id: Int? = null,
-    val KRW: Double = 0.0,
-    val JPY: Double = 0.0,
-    val PHP: Double = 0.0
+    @PrimaryKey val USD: String = "미국(USD)",
+    val KRW: Double,
+    val JPY: Double,
+    val PHP: Double,
 )

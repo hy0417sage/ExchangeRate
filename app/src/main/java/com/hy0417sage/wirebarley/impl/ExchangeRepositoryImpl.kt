@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import com.hy0417sage.wirebarley.Exchange
 import com.hy0417sage.wirebarley.ExchangeService
 import com.hy0417sage.wirebarley.ExchangeRepository
+import com.hy0417sage.wirebarley.cache.CacheEntity
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,13 +17,15 @@ import javax.inject.Inject
 
 class ExchangeRepositoryImpl @Inject constructor(private val retrofit: Retrofit) :
     ExchangeRepository {
-    val exchangeData: MutableLiveData<Exchange.Quotes> = MutableLiveData()
+
+    private val _exchangeData: MutableStateFlow<Exchange.Quotes> = MutableStateFlow(Exchange.Quotes(0.0, 0.0, 0.0))
+    val exchangeData: StateFlow<Exchange.Quotes> = _exchangeData
 
     private val gitHubService by lazy {
         retrofit.create(ExchangeService::class.java)
     }
 
-    override fun exchangeData(): LiveData<Exchange.Quotes> {
+    override fun exchangeData(): StateFlow<Exchange.Quotes> {
         return exchangeData
     }
 
@@ -31,7 +36,7 @@ class ExchangeRepositoryImpl @Inject constructor(private val retrofit: Retrofit)
                 response: Response<Exchange>,
             ) {
                 if (response.isSuccessful) {
-                    exchangeData.value = response.body()?.quotes
+                    _exchangeData.value = response.body()!!.quotes
                 }
             }
 

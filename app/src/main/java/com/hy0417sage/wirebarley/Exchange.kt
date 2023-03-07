@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Exchange(
     @SerializedName("success") val success: Boolean,
-    @SerializedName("source") val source: String,
+    @SerializedName("source") val USD: String,
     @SerializedName("quotes") val quotes: Quotes,
 ) {
     data class Quotes(

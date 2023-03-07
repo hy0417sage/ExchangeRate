@@ -1,14 +1,13 @@
 package com.hy0417sage.wirebarley
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
-import com.hy0417sage.wirebarley.cache.CacheEntity
 import com.hy0417sage.wirebarley.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -17,25 +16,47 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mainViewModel.getExchangeRate().observe(this, Observer { exchange ->
-            mainViewModel.insertCache(CacheEntity(1, exchange.KRW, exchange.JPY, exchange.PHP))
-        })
-
-        mainViewModel.getCache().observe(this, Observer { cache ->
-            if (cache != null){
-                binding.exchangeRate.text = cache.JPY.toString()
-            }
-        })
-        alertDialog()
-
-        binding.time.text = DateUtil.dateAndTime()
+        initView()
     }
+
+    @SuppressLint("SetTextI18n")
+    private fun initView() {
+        binding.button.setOnClickListener {
+            alertDialog()
+        }
+        binding.time.text = DateUtil.dateAndTime()
+        mainViewModel.getCache().onEach { cache ->
+            when(mainViewModel.selectedCurrency.value){
+                0 -> Pair(cache?.KRW ?: 0.0, "KRW")
+                1 -> Pair(cache?.JPY ?: 0.0, "JPY")
+                2 -> Pair(cache?.PHP ?: 0.0, "PHP")
+            }
+            binding.exchangeRate.text = cache?.KRW.toString()
+        }
+
+    }
+
+//    fun getCache() {
+//        var data: Pair<Double, String> = Pair(0.0, "")
+//        lifecycleScope.launch {
+//            mainViewModel.getCache().onEach { cache ->
+//                data = when (mainViewModel.selectedCurrency.value) {
+//                    0 -> Pair(cache.KRW, "KRW")
+//                    1 -> Pair(cache.JPY, "JPY")
+//                    else -> Pair(cache.PHP, "PHP")
+//                }
+//            }
+//        }
+//        binding.exchangeRate.text = data.second
+//    }
+
 
     private fun alertDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setItems(R.array.nation,
             DialogInterface.OnClickListener { dialog, which ->
-
+                mainViewModel.selectedCurrency.value = which
             }).create().show()
     }
 }
+

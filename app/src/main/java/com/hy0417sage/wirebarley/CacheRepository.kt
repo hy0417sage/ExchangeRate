@@ -1,9 +1,9 @@
 package com.hy0417sage.wirebarley
 
-import androidx.lifecycle.LiveData
 import com.hy0417sage.wirebarley.cache.CacheEntity
+import kotlinx.coroutines.flow.Flow
 
 interface CacheRepository {
-    fun getCache(): LiveData<CacheEntity>
-    suspend fun insertCache(cache: CacheEntity)
+    fun getCache(): Flow<CacheEntity>
+    suspend fun updateCache(cache: CacheEntity)
 }

@@ -1,8 +1,8 @@
 package com.hy0417sage.wirebarley
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.StateFlow
 
 interface ExchangeRepository {
-    fun exchangeData(): LiveData<Exchange.Quotes>
+    fun exchangeData(): StateFlow<Exchange.Quotes>
     fun setApiKey(apiKey: String)
 }

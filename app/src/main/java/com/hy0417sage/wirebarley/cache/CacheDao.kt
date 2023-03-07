@@ -5,12 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CacheDao {
     @Query("SELECT * FROM Cache")
-    fun getCache(): LiveData<CacheEntity>
+    fun getCache(): Flow<CacheEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCache(cache: CacheEntity)
+    suspend fun updateCache(cache: CacheEntity)
 }

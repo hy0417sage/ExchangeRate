@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import com.hy0417sage.wirebarley.CacheRepository
 import com.hy0417sage.wirebarley.cache.CacheDao
 import com.hy0417sage.wirebarley.cache.CacheEntity
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CacheRepositoryImpl @Inject constructor(private val cacheDao: CacheDao) : CacheRepository {
-    override fun getCache(): LiveData<CacheEntity> = cacheDao.getCache()
+    override fun getCache(): Flow<CacheEntity> = cacheDao.getCache()
 
-    override suspend fun insertCache(cache: CacheEntity) {
-        cacheDao.insertCache(cache)
+    override suspend fun updateCache(cache: CacheEntity) {
+        cacheDao.updateCache(cache)
     }
 }
 

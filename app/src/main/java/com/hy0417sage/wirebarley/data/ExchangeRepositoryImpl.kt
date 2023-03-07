@@ -1,12 +1,9 @@
-package com.hy0417sage.wirebarley.impl
+package com.hy0417sage.wirebarley.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.hy0417sage.wirebarley.Exchange
-import com.hy0417sage.wirebarley.ExchangeService
-import com.hy0417sage.wirebarley.ExchangeRepository
-import com.hy0417sage.wirebarley.cache.CacheEntity
+import com.hy0417sage.wirebarley.data.model.Exchange
+import com.hy0417sage.wirebarley.domain.ExchangeRepository
+import com.hy0417sage.wirebarley.data.api.ExchangeService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import retrofit2.Call
@@ -18,7 +15,10 @@ import javax.inject.Inject
 class ExchangeRepositoryImpl @Inject constructor(private val retrofit: Retrofit) :
     ExchangeRepository {
 
-    private val _exchangeData: MutableStateFlow<Exchange.Quotes> = MutableStateFlow(Exchange.Quotes(0.0, 0.0, 0.0))
+    private val _exchangeData: MutableStateFlow<Exchange.Quotes> = MutableStateFlow(Exchange.Quotes(
+        0.0,
+        0.0,
+        0.0))
     val exchangeData: StateFlow<Exchange.Quotes> = _exchangeData
 
     private val gitHubService by lazy {

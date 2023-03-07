@@ -1,9 +1,8 @@
-package com.hy0417sage.wirebarley.impl
+package com.hy0417sage.wirebarley.data
 
-import androidx.lifecycle.LiveData
-import com.hy0417sage.wirebarley.CacheRepository
-import com.hy0417sage.wirebarley.cache.CacheDao
-import com.hy0417sage.wirebarley.cache.CacheEntity
+import com.hy0417sage.wirebarley.domain.CacheRepository
+import com.hy0417sage.wirebarley.data.db.CacheDao
+import com.hy0417sage.wirebarley.data.model.CacheEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

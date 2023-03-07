@@ -1,4 +1,4 @@
-package com.hy0417sage.wirebarley.cache
+package com.hy0417sage.wirebarley.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

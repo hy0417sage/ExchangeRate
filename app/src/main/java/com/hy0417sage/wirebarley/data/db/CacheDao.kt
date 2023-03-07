@@ -1,10 +1,10 @@
-package com.hy0417sage.wirebarley.cache
+package com.hy0417sage.wirebarley.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.hy0417sage.wirebarley.data.model.CacheEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

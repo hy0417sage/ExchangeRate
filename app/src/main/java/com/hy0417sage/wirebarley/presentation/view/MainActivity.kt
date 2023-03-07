@@ -1,11 +1,14 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.presentation.view
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import com.hy0417sage.wirebarley.R
 import com.hy0417sage.wirebarley.databinding.ActivityMainBinding
+import com.hy0417sage.wirebarley.presentation.config.BaseActivity
+import com.hy0417sage.wirebarley.presentation.util.DateUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onEach
 
@@ -35,21 +38,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         }
 
     }
-
-//    fun getCache() {
-//        var data: Pair<Double, String> = Pair(0.0, "")
-//        lifecycleScope.launch {
-//            mainViewModel.getCache().onEach { cache ->
-//                data = when (mainViewModel.selectedCurrency.value) {
-//                    0 -> Pair(cache.KRW, "KRW")
-//                    1 -> Pair(cache.JPY, "JPY")
-//                    else -> Pair(cache.PHP, "PHP")
-//                }
-//            }
-//        }
-//        binding.exchangeRate.text = data.second
-//    }
-
 
     private fun alertDialog() {
         val builder = AlertDialog.Builder(this)

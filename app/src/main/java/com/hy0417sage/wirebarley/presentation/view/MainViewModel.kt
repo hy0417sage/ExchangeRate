@@ -1,7 +1,9 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.presentation.view
 
 import androidx.lifecycle.*
-import com.hy0417sage.wirebarley.cache.CacheEntity
+import com.hy0417sage.wirebarley.data.model.CacheEntity
+import com.hy0417sage.wirebarley.domain.CacheRepository
+import com.hy0417sage.wirebarley.domain.ExchangeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -17,18 +19,6 @@ class MainViewModel @Inject constructor(
         exchangeRepository.setApiKey("Ljk6bSeswHTEVI7HF7rfVDve6tEFxoir")
         updateCache()
     }
-
-//    fun getCache() : Pair<Double, String>{
-//        var data: Pair<Double, String> = Pair(0.0, "")
-//        cacheRepository.getCache().onEach { cache ->
-//            data = when (selectedCurrency.value) {
-//                0 -> Pair(cache.KRW, "KRW")
-//                1 -> Pair(cache.JPY, "JPY")
-//                else -> Pair(cache.PHP, "PHP")
-//            }
-//        }.launchIn(viewModelScope)
-//        return data
-//    }
 
     fun getCache() = cacheRepository.getCache()
 

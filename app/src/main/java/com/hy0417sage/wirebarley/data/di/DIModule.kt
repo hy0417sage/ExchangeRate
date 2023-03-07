@@ -1,12 +1,14 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.hy0417sage.wirebarley.cache.CacheDao
-import com.hy0417sage.wirebarley.cache.CacheDatabase
-import com.hy0417sage.wirebarley.impl.CacheRepositoryImpl
-import com.hy0417sage.wirebarley.impl.ExchangeClientImpl
-import com.hy0417sage.wirebarley.impl.ExchangeRepositoryImpl
+import com.hy0417sage.wirebarley.data.CacheRepositoryImpl
+import com.hy0417sage.wirebarley.data.api.ExchangeClientImpl
+import com.hy0417sage.wirebarley.data.ExchangeRepositoryImpl
+import com.hy0417sage.wirebarley.data.db.CacheDao
+import com.hy0417sage.wirebarley.data.db.CacheDatabase
+import com.hy0417sage.wirebarley.domain.CacheRepository
+import com.hy0417sage.wirebarley.domain.ExchangeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

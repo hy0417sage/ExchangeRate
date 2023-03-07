@@ -6,13 +6,13 @@
     <data>
         <variable
             name="note_data"
-            type="com.hy0417sage.wirebarley.MainViewModel" />
+            type="com.hy0417sage.wirebarley.presentation.view.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".presentation.view.MainActivity">
 
         <TextView
             android:id="@+id/title"

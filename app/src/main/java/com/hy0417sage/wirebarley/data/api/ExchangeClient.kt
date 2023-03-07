@@ -1,4 +1,4 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.data.api
 
 import retrofit2.Retrofit
 

@@ -1,4 +1,4 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.presentation.util
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

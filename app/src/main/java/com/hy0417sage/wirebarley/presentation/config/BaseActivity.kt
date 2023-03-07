@@ -1,4 +1,4 @@
-package com.hy0417sage.wirebarley
+package com.hy0417sage.wirebarley.presentation.config
 
 import android.os.Bundle
 import androidx.annotation.LayoutRes

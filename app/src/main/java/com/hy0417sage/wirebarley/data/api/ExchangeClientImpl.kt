@@ -1,6 +1,5 @@
-package com.hy0417sage.wirebarley.impl
+package com.hy0417sage.wirebarley.data.api
 
-import com.hy0417sage.wirebarley.ExchangeClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

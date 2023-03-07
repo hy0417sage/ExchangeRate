@@ -22,7 +22,7 @@ import javax.inject.Singleton
 class DIModule {
     @Provides
     fun provideClient(): Retrofit {
-        return ExchangeClientImpl.getExchangeRate()
+        return ExchangeClientImpl.retrofit()
     }
 
     @Singleton

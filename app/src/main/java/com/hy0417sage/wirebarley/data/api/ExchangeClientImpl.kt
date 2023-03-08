@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ExchangeClientImpl : ExchangeClient {
     private const val BASE_URL = "https://api.apilayer.com/"
 
-    override fun getExchangeRate(): Retrofit {
+    override fun retrofit(): Retrofit {
         return client
     }
 

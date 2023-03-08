@@ -1,37 +1,34 @@
 package com.hy0417sage.wirebarley.presentation.view
 
 import androidx.lifecycle.*
-import com.hy0417sage.wirebarley.data.model.CacheEntity
-import com.hy0417sage.wirebarley.domain.CacheRepository
 import com.hy0417sage.wirebarley.domain.ExchangeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val exchangeRepository: ExchangeRepository,
-    private val cacheRepository: CacheRepository,
-) :
-    ViewModel() {
-    val selectedCurrency = MutableLiveData<Int>()
+) : ViewModel() {
+    private val _quotes = MutableLiveData<List<Double>>()
+    val quotes: LiveData<List<Double>> get() = _quotes
+    private val _now = MutableLiveData<Int>(0)
+    val now: LiveData<Int> get() = _now
+
     init {
-        exchangeRepository.setApiKey("Ljk6bSeswHTEVI7HF7rfVDve6tEFxoir")
-        updateCache()
+        loadAPI()
     }
 
-    fun getCache() = cacheRepository.getCache()
+    private fun loadAPI() {
+        viewModelScope.launch {
+            val quotes = exchangeRepository.getQuotesData("Ljk6bSeswHTEVI7HF7rfVDve6tEFxoir")
+            val exchangeRateList = listOf(quotes.KRW, quotes.JPY, quotes.PHP)
+            _quotes.value = exchangeRateList
+            _quotes.postValue(exchangeRateList)
+        }
+    }
 
-
-    private fun updateCache() {
-        exchangeRepository.exchangeData().onEach {
-            cacheRepository.updateCache(
-                CacheEntity(
-                    KRW = String.format("%.2f", it.KRW).toDouble(),
-                    JPY = String.format("%.2f", it.JPY).toDouble(),
-                    PHP = String.format("%.2f", it.PHP).toDouble()
-                )
-            )
-        }.launchIn(viewModelScope)
+    fun changeExchangeRate(which: Int) {
+        _now.value = which
     }
 }

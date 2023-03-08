@@ -1,6 +1,7 @@
 package com.hy0417sage.wirebarley.presentation.view
 
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,57 +17,55 @@ import java.text.DecimalFormat
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val mainViewModel: MainViewModel by viewModels()
-    private var exchangeRate: List<Double> = listOf(0.0, 0.0, 0.0)
-    private var now: Int = 0
-    private var total: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val df = DecimalFormat("#,###.00")
+        val nation = arrayOf("KRW", "JPY", "PHP")
+        val exchangeRate = "%s %s/USD"
+        val total = "수취금액은 %s %s 입니다"
 
-        mainViewModel.quotes.observe(this) { exchangeRate ->
-            this.exchangeRate = exchangeRate
-            changeView()
+        mainViewModel.viewData.observe(this) { viewData ->
+            binding.exchangeRate.text = if (viewData.exchangeRate == 0.0) {
+                "네트워크 연결에 실패했습니다."
+            } else {
+                exchangeRate.format(df.format(viewData.exchangeRate), nation[viewData.nation])
+            }
+            binding.receivedAmount.text = if (viewData.total == 0.0) {
+                "송금액을 입력해 주세요."
+            } else {
+                total.format(df.format(viewData.total), nation[viewData.nation])
+            }
         }
-        binding.want.addTextChangedListener(textWatcher)
-        mainViewModel.now.observe(this) { nation ->
-            this.now = nation
-            changeView()
-        }
+        binding.remittanceAmount.addTextChangedListener(textWatcher)
         binding.button.setOnClickListener {
             alertDialog()
         }
     }
 
-    private fun changeView() {
-        val df = DecimalFormat("#,###.00")
-        val nation = arrayOf("KRW", "JPY", "PHP")
-        binding.exchangeRate.text = df.format(exchangeRate[now]) + " ${nation[now]}/USD"
-        binding.total.text =
-            "수취금액은 ${
-                df.format(total * exchangeRate[now])
-            } ${nation[now]}입니다."
-    }
-
     private fun alertDialog() {
         val builder = AlertDialog.Builder(this)
         val nation = arrayOf("한국(KRW)", "일본(JPY)", "필리핀(PHP)")
-        builder.setItems(nation, DialogInterface.OnClickListener { dialog, which ->
-            mainViewModel.changeExchangeRate(which)
-            binding.send.text = nation[which]
+        builder.setItems(nation, DialogInterface.OnClickListener { dialog, index ->
+            binding.recipientCountry.text = nation[index]
+            binding.remittanceAmount.text = null
+            mainViewModel.exchangeRate(index, null)
         }).create().show()
     }
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            if (s != null && s.toString() != "") {
-                val df = DecimalFormat("#,###.00")
-                val nation = arrayOf("KRW", "JPY", "PHP")
-                total = s.toString().toDouble()
-                binding.total.text =
-                    "수취금액은 ${
-                        df.format(total * exchangeRate[now])
-                    } ${nation[now]}입니다."
-                binding.time.text = DateUtil.dateAndTime()
+            binding.receivedAmount.setTextColor(Color.BLACK)
+            if (s != null && s.toString().isNotEmpty()) {
+                if (s.toString().toInt() <= 10000) {
+                    mainViewModel.totalExchange(s.toString())
+                    binding.lookupTime.text = DateUtil.dateAndTime()
+                } else {
+                    binding.receivedAmount.text = "송금액이 바르지 않습니다."
+                    binding.receivedAmount.setTextColor(Color.RED)
+                }
+            } else {
+                mainViewModel.totalExchange(null)
             }
         }
 

@@ -12,6 +12,7 @@ import com.hy0417sage.wirebarley.databinding.ActivityMainBinding
 import com.hy0417sage.wirebarley.presentation.config.BaseActivity
 import com.hy0417sage.wirebarley.presentation.util.DateUtil
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 import java.text.DecimalFormat
 
 @AndroidEntryPoint
@@ -56,16 +57,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             binding.receivedAmount.setTextColor(Color.BLACK)
-            if (s != null && s.toString().isNotEmpty()) {
-                if (s.toString().toInt() <= 10000) {
-                    mainViewModel.totalExchange(s.toString())
-                    binding.lookupTime.text = DateUtil.dateAndTime()
+            try {
+                if (s != null && s.toString().isNotEmpty()) {
+                    if (s.toString().toInt() <= 10000) {
+                        mainViewModel.totalExchange(s.toString())
+                        binding.lookupTime.text = DateUtil.dateAndTime()
+                    } else {
+                        binding.receivedAmount.text = "송금액이 바르지 않습니다.\n10,000 USD 이하로 송금이 가능합니다."
+                        binding.receivedAmount.setTextColor(Color.RED)
+                    }
                 } else {
-                    binding.receivedAmount.text = "송금액이 바르지 않습니다."
-                    binding.receivedAmount.setTextColor(Color.RED)
+                    mainViewModel.totalExchange(null)
                 }
-            } else {
-                mainViewModel.totalExchange(null)
+            } catch (e: Exception) {
+                binding.receivedAmount.text = "송금액이 바르지 않습니다."
+                binding.receivedAmount.setTextColor(Color.RED)
+                return
             }
         }
 

@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
         val exchangeRate = _quotes.value?.get(index) ?: 0.0
         val total = viewData.value?.total ?: (reset ?: 0.0)
         _viewData.value = ViewData(index, exchangeRate, total)
-        _viewData.postValue(ViewData(index, exchangeRate, total))
     }
 
     fun totalExchange(edit: String?) {
@@ -42,6 +41,5 @@ class MainViewModel @Inject constructor(
         val exchangeRate = viewData.value?.exchangeRate ?: 0.0
         val total = (viewData.value?.exchangeRate ?: 0.0) * (edit?.toDouble() ?: 0.0)
         _viewData.value = ViewData(index, exchangeRate, total)
-        _viewData.postValue(ViewData(index, exchangeRate, total))
     }
 }

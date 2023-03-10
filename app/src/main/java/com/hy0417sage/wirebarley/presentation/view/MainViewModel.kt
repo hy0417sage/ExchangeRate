@@ -25,7 +25,6 @@ class MainViewModel @Inject constructor(
             val quotes = exchangeRepository.getQuotesData("Ljk6bSeswHTEVI7HF7rfVDve6tEFxoir")
             val exchangeRateList = listOf(quotes.KRW, quotes.JPY, quotes.PHP)
             _quotes.value = exchangeRateList
-            _quotes.postValue(exchangeRateList)
             _viewData.value = ViewData(0, exchangeRateList[0], 0.0)
         }
     }
